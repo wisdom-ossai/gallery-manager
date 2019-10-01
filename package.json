@@ -1,0 +1,24 @@
+{
+  "name": "gallery-manager",
+  "version": "1.0.0",
+  "description": "A Node.js that utilizes the robust api provided by the express framework",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^3.3.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Node.js",
+    "Express",
+    "MongoDB",
+    "Bootstrap",
+    "Image",
+    "Gallery"
+  ],
+  "author": "Chuks Ossai",
+  "license": "ISC"
+}
