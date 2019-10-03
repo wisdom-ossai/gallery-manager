@@ -1,10 +1,13 @@
 const express = require('express');
 const path = require('path');
+const config = require('./config');
 
 const app = express();
 
 app.set('port', process.env.PORT || 3888);
 app.set('views', path.join(__dirname, 'templates'));
+
+config(app);
 
 app.listen(app.get('port'), err => {
   if (err) throw err;
