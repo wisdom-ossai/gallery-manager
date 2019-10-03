@@ -3,7 +3,6 @@ const imageController = require('../controllers/image.controller');
 
 module.exports.initialize = (app, router) => {
   router.get('/', homeController);
-  router.get('/images', imageController.getAll);
   router.get('/images/:image_id', imageController.getById);
 
   router.post('/image', imageController.add);

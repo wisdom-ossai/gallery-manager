@@ -7,13 +7,21 @@ const errorHandler = require('errorhandler');
 const logger = require('morgan');
 const express = require('express');
 const routes = require('../routes');
+const moment = require('moment');
 
 module.exports = app => {
   app.engine(
     'handlebars',
     exphbs.create({
-      layoutsDir: app.get('templates') + '/layouts',
-      partialsDir: [app.get('templates') + '/partials']
+      layoutsDir: app.get('views') + '/layouts',
+      partialsDir: [app.get('views') + '/partials'],
+      helpers: {
+        timeago: timestamp => {
+          return moment(timestamp)
+            .startOf('minute')
+            .fromNow();
+        }
+      }
     }).engine
   );
 
@@ -30,7 +38,7 @@ module.exports = app => {
   app.use(methodOverride());
   app.use(cookieParser());
   routes.initialize(app, new express.Router());
-  app.use(express.static(path.join(__dirname, '/public')));
+  app.use(express.static('public'));
   if ('development' == app.get('env')) {
     app.use(errorHandler());
   }

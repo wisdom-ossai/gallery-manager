@@ -1,0 +1,76 @@
+<div class="card text-center mt-3">
+    <div class="card-header">
+        {{image.title}}
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Special title treatment</h5>
+        <p class="card-text">{{image.description}}</p>
+        <div class="col-md-12 text-center">
+            <img src="/public/upload/{{image.filename}}" class="img-thumbnail">
+        </div>
+    </div>
+    <div class="card-footer text-muted">
+        <div class="row">
+            <div class="col-md-8">
+                <button class="btn btn-success text-uppercase" id="btn-like" data-id="{{image.uiqueId}}"><i
+                        class="fa fa-thumbs-up"></i>&nbsp; &nbsp; Like</button>
+                <strong class="likes-count">{{image.likes}}</strong>
+                &nbsp; - &nbsp; <i class="fa fa-eye"></i> <strong>{{ image.views }}</ strong> &nbsp; - &nbsp; Posted:
+                    <em class="text-muted">{{ timeago image.timestamp }}</em>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-head">
+        <div class="row">
+            <div class="col-md-8">
+                <strong class="panel-title">Comments</strong>
+            </div>
+            <div class="col-md-4 text-right">
+                <button class="btn btn-default btn-sm" id="btn-comment" data-id="{{image.uniqueId}}"><i
+                        class="fa fa-comments"></i>&nbsp; &nbsp; Post Comment...</button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <blockquote id="post-comment">
+            <div class="row">
+                <div class="col-12">
+                    <form method="POST" action="/images/{{image.uniqueId}}/comment" class="md-form">
+                        <div class="md-form">
+                            <input type="text" id="name" class="form-control" name="name">
+                            <label for="name">Name</label>
+                        </div>
+                        <div class="md-form">
+                            <input type="text" id="email" class="form-control" name="email">
+                            <label for="email">Email</label>
+                        </div>
+                        <!--Material textarea-->
+                        <div class="md-form">
+                            <textarea id="comment" class="md-textarea form-control" rows="3" name="comment"></textarea>
+                            <label for="comment">Comment</label>
+                        </div>
+                        <div class="md-form">
+                            <button class="btn btn-info btn-block my-4 text-uppercase" type="submit" id="btn-comment"><i
+                                    class="fa fa-comment "></i>Post</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </blockquote>
+        <ul class="media-list">
+            {{#each comments}}
+            <li class="media">
+                <a class="pull-left" href="#"> <img class="media-object img-circle"
+                        src="http:// www.gravatar.com/avatar/{{gravatar}}?d=monsterid&s=45"> </a>
+                <div class="media-body">
+                    {{ comment }} <br />
+                    <strong class="media-heading">{{ name }}</ strong>
+                        <small class="text-muted">{{ timeago timestamp }}</small>
+                </div>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+</div>

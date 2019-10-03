@@ -5,7 +5,7 @@ const config = require('./config');
 const app = express();
 
 app.set('port', process.env.PORT || 3888);
-app.set('views', path.join(__dirname, 'templates'));
+app.set('views', path.join(__dirname, 'views'));
 
 config(app);
 
