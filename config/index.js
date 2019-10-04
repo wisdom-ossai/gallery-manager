@@ -13,6 +13,7 @@ module.exports = app => {
   app.engine(
     'handlebars',
     exphbs.create({
+      defaultLayout: 'main',
       layoutsDir: app.get('views') + '/layouts',
       partialsDir: [app.get('views') + '/partials'],
       helpers: {
@@ -30,7 +31,7 @@ module.exports = app => {
   app.use(logger('dev'));
   app.use(
     bodyParser({
-      uploadDir: path.join(__dirname, '../public/upload/temp')
+      uploadDir: path.join(__dirname, '/public/upload/temp')
     })
   );
   app.use(bodyParser.json());

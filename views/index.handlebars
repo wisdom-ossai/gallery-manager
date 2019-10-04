@@ -40,14 +40,30 @@
         <div class="card-body">
             <h4 class="card-title">Newest Images</h4>
             <h6 class="card-subtitle mb-2 text-muted">Panel subtitle</h6>
-            {{#each images}}
-            <div class="col-md-4 text-center" style="padding-bottom: 1em;">
-                <a href="/images/{{ uniqueId }}">
-                    <img src="/public/upload/ {{filename}}" alt="{{title}}" style="width: 175px; height: 175px;"
-                        class="img-thumbnail">
-                </a>
+            <div class="row">
+                {{#each images}}
+                <div class="col-md-6 my-2">
+                    <div class="card">
+                        <img src="/public/upload/ {{filename}}" alt="{{title}}" class="card-img-top img-fluid">
+                        <div class="card-body">
+                            <h4 class="card-title"><a>{{title}}</a></h4>
+                            <p class="card-text">{{description}}</p>
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <a href="/images/{{ uniqueId }}" class="btn btn-primary">View Details</a>
+                                </div>
+                                <div class="pt-4">
+                                    <span class="mr-4"><i class="fa fa-eye"></i> &nbsp; {{views}}</span>
+                                    <span><i class="fa fa-thumbs-up"></i> &nbsp; {{likes}}</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+
             </div>
-            {{/each}}
         </div>
     </div>
 </div>

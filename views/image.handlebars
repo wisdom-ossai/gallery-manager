@@ -14,18 +14,19 @@
             <div class="col-md-8">
                 <button class="btn btn-success text-uppercase" id="btn-like" data-id="{{image.uiqueId}}"><i
                         class="fa fa-thumbs-up"></i>&nbsp; &nbsp; Like</button>
-                <strong class="likes-count">{{image.likes}}</strong>
-                &nbsp; - &nbsp; <i class="fa fa-eye"></i> <strong>{{ image.views }}</ strong> &nbsp; - &nbsp; Posted:
-                    <em class="text-muted">{{ timeago image.timestamp }}</em>
+                <span class="likes-count">{{image.likes}}</span>
+                &nbsp; - &nbsp; <i class="fa fa-eye"></i> <span>{{ image.views }}</span> &nbsp; - &nbsp; <span
+                    class="font-weight-bold">Posted:</span>
+                <span class="text-muted font-italic">{{ timeago image.timestamp }}</span>
             </div>
         </div>
     </div>
 </div>
-<div class="card">
+<div class="card mt-3">
     <div class="card-head">
-        <div class="row">
+        <div class="row m-3">
             <div class="col-md-8">
-                <strong class="panel-title">Comments</strong>
+                <h4 class="panel-title">Comments</h4>
             </div>
             <div class="col-md-4 text-right">
                 <button class="btn btn-default btn-sm" id="btn-comment" data-id="{{image.uniqueId}}"><i
@@ -59,15 +60,22 @@
                 </div>
             </div>
         </blockquote>
-        <ul class="media-list">
+        <h3 class="text-center">Comments</h3>
+        <ul class="list-group list-group-flush">
             {{#each comments}}
-            <li class="media">
-                <a class="pull-left" href="#"> <img class="media-object img-circle"
-                        src="http:// www.gravatar.com/avatar/{{gravatar}}?d=monsterid&s=45"> </a>
-                <div class="media-body">
-                    {{ comment }} <br />
-                    <strong class="media-heading">{{ name }}</ strong>
-                        <small class="text-muted">{{ timeago timestamp }}</small>
+            <li class="list-group-item row">
+                <div class="row">
+                    <div class="col-2">
+                        <a class="pull-left" href="#"> <img class="media-object rounded-circle" src={{gravatar}}> </a>
+                    </div>
+                    <div class="col-10">
+                        <h5>{{comment}}</h5>
+                        <div>
+                            <span class="media-heading">{{ name }}</span>
+                            <small class="text-muted">{{ timeago timestamp }}</small>
+                        </div>
+
+                    </div>
                 </div>
             </li>
             {{/each}}
