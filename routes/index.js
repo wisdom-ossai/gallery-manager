@@ -1,11 +1,19 @@
 const homeController = require('../controllers/home.controller');
 const imageController = require('../controllers/image.controller');
+const multer = require('multer');
+
+const upload = multer({
+  dest: 'uploads/temp',
+  limits: {
+    fileSize: 1024 * 1024 * 5
+  }
+});
 
 module.exports.initialize = (app, router) => {
   router.get('/', homeController);
   router.get('/images/:image_id', imageController.getById);
 
-  router.post('/image', imageController.add);
+  router.post('/image', upload.single('newImage'), imageController.add);
   router.post('/images/:image_id/like', imageController.like);
   router.post('/images/:image_id/comment', imageController.comment);
 

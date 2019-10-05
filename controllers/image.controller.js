@@ -1,3 +1,7 @@
+const fs = require('fs');
+const multer = require('multer');
+const path = require('path');
+
 const control = {
   getById: (req, res) => {
     const viewModel = {
@@ -33,7 +37,41 @@ const control = {
     res.render('image', viewModel);
   },
   add: (req, res) => {
-    res.send('The Add Image controller POST request');
+    const saveImage = () => {
+      const possible = 'abcdefghijklmnopqrstuvwxyz0123456789';
+
+      const fileTypes = /jpeg|jpg|png|gif/;
+      const tempPath = req.file.path;
+      let imgUrl = '';
+
+      for (let i = 0; i < 6; i++) {
+        imgUrl += possible.charAt(Math.floor(Math.random() * possible.length));
+      }
+
+      const extname = fileTypes.test(
+        path.extname(req.file.originalname).toLowerCase()
+      );
+      const mimeType = fileTypes.test(req.file.mimetype);
+      const targetPath = path.resolve(
+        './public/uploads/temp' + imgUrl + extname
+      );
+
+      if (mimeType && extname) {
+        fs.rename(tempPath, targetPath, err => {
+          if (err) throw err;
+          res.redirect('/images/99');
+        });
+      } else {
+        fs.unlink(tempPath, err => {
+          if (err) throw err;
+          res.status(500).json({
+            error: `Only image files are allowed!`
+          });
+        });
+      }
+    };
+
+    saveImage();
   },
   like: (req, res) => {
     res.send('The Like Image POST Controller');

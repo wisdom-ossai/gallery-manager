@@ -3,12 +3,12 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Upload an Image</h5>
-            <form method="POST" action="/images" enctype="multipart/form-data" class="md-form">
+            <form method="POST" action="/image" enctype="multipart/form-data" class="md-form">
                 <div class="row">
                     <div class="file-field col-12">
                         <div class="btn btn-primary btn-sm float-left">
-                            <span>Choose file</span>
-                            <input type="file">
+                            <span for="newImage">Choose file</span>
+                            <input type="file" name="newImage" id="newImage">
                         </div>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                 </div>
                 <div class="row">
                     <div class="md-form col-12">
-                        <button class="btn btn-info btn-block my-4 text-uppercase" type="submit"><i
+                        <button class="btn btn-info btn-block my-4 text-uppercase" id="submit-button" type="submit"><i
                                 class="fa fa-cloud-upload "></i>Upload</button>
                     </div>
                 </div>

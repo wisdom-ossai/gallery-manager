@@ -8,6 +8,8 @@ const logger = require('morgan');
 const express = require('express');
 const routes = require('../routes');
 const moment = require('moment');
+const multer = require('multer');
+const toastr = require('express-toastr');
 
 module.exports = app => {
   app.engine(
@@ -29,17 +31,14 @@ module.exports = app => {
   app.set('view engine', 'handlebars');
 
   app.use(logger('dev'));
-  app.use(
-    bodyParser({
-      uploadDir: path.join(__dirname, '/public/upload/temp')
-    })
-  );
+  // app.use()
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(methodOverride());
   app.use(cookieParser());
   routes.initialize(app, new express.Router());
   app.use(express.static('public'));
+  app.use(toastr());
   if ('development' == app.get('env')) {
     app.use(errorHandler());
   }
