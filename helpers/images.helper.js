@@ -1,8 +1,6 @@
-const sidebar = require('../helpers/sidebar.helper');
-
-module.exports = (req, res) => {
-  let viewModel = {
-    images: [
+module.exports = {
+  popular: () => {
+    let images = [
       {
         uniqueId: 1,
         title: 'Sample Image 1',
@@ -39,11 +37,7 @@ module.exports = (req, res) => {
         likes: 0,
         timestamp: Date.now
       }
-    ]
-  };
-
-  sidebar(viewModel, (err, viewModel) => {
-    if (err) throw err;
-    res.render('index', viewModel);
-  });
+    ];
+    return images;
+  }
 };

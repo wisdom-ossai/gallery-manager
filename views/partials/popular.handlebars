@@ -1,13 +1,16 @@
 <div class="card mt-3">
     <div class="card-header">
-        <h4 class="panel-title">Most Popular</h4>
+        <h5 class="panel-title">Most Popular</h5>
     </div>
     <div class="card-body">
-        {{#each sidebar.popular}}
-        <div class="col-md-4 text-center" style="paddingbottom: .5em;">
-            <a href="/images/{{uniqueId}}"><img src="/public/ upload/{{filename}}" style="width: 75px; height: 75px;"
-                    class="imgthumbnail"></a>
+        <div class="row">
+            {{#each sidebar.popular}}
+            <div class="col-md-6 p-2">
+                <a href="/images/{{uniqueId}}"><img src="/public/ upload/{{filename}}"
+                        class="imgthumbnail img-fluid"></a>
+            </div>
+
+            {{/each}}
         </div>
-        {{/each}}
     </div>
 </div>

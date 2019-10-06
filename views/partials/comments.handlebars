@@ -1,17 +1,38 @@
 <div class="card mt-3">
-    <div class="card-heading">
-        <h4 class="card-title">Latest Comments</h4>
+    <div class="card-header">
+        <h5 class="card-title">Latest Comments</h5>
     </div>
     <div class="card-body">
-        <ul class="media-list">
+        {{!-- <ul class="media-list">
             {{#each sidebar.comments}}
             <li class="media">
-                <a class="pull-left" href="/images/{{ image.uniqueId }}">
-                    <img class="media-object" width="45" height="45" src="/public/upload/{{ image.filename }}">
+                <a class="pull-left" href="images/{{ image.uniqueId }}">
+                    <img class="media-object" width="45" height="45" src="public/upload/{{ image.filename }}">
                 </a>
                 <div class="media-body">{{comment}}<br />
                     <strong class="media-heading">{{name}}</strong>
                     <small class="text-muted">{{timeago timestamp }}</small>
+                </div>
+            </li>
+            {{/each}}
+        </ul> --}}
+
+        <ul class="list-group list-group-flush">
+            {{#each comments}}
+            <li class="list-group-item row">
+                <div class="row">
+                    <div class="col-2">
+                        <a class="pull-left" href="#"> <img class="media-object rounded-circle img-fluid"
+                                src={{gravatar}}> </a>
+                    </div>
+                    <div class="col-10">
+                        <h5>{{comment}}</h5>
+                        <div>
+                            <span class="media-heading">{{ name }}</span>
+                            <small class="text-muted">{{ timeago timestamp }}</small>
+                        </div>
+
+                    </div>
                 </div>
             </li>
             {{/each}}

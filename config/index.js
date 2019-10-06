@@ -1,6 +1,8 @@
 const path = require('path');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
+const flash = require('connect-flash');
+const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const methodOverride = require('method-override');
 const errorHandler = require('errorhandler');
@@ -8,7 +10,6 @@ const logger = require('morgan');
 const express = require('express');
 const routes = require('../routes');
 const moment = require('moment');
-const multer = require('multer');
 const toastr = require('express-toastr');
 
 module.exports = app => {
@@ -36,6 +37,14 @@ module.exports = app => {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(methodOverride());
   app.use(cookieParser());
+  app.use(
+    session({
+      secret: 'secret',
+      saveUninitialized: true,
+      resave: true
+    })
+  );
+  app.use(flash());
   routes.initialize(app, new express.Router());
   app.use(express.static('public'));
   app.use(toastr());

@@ -1,6 +1,6 @@
 const fs = require('fs');
-const multer = require('multer');
 const path = require('path');
+const sidebar = require('../helpers/sidebar.helper');
 
 const control = {
   getById: (req, res) => {
@@ -34,42 +34,48 @@ const control = {
       ]
     };
 
-    res.render('image', viewModel);
+    sidebar(viewModel, (err, viewModel) => {
+      if (err) throw err;
+      res.render('image', viewModel);
+    });
   },
   add: (req, res) => {
     const saveImage = () => {
-      const possible = 'abcdefghijklmnopqrstuvwxyz0123456789';
+      if (req.file) {
+        const possible = 'abcdefghijklmnopqrstuvwxyz0123456789';
 
-      const fileTypes = /jpeg|jpg|png|gif/;
-      const tempPath = req.file.path;
-      let imgUrl = '';
+        const fileTypes = /jpeg|jpg|png|gif/;
+        const tempPath = req.file.path;
+        let imgUrl = '';
 
-      for (let i = 0; i < 6; i++) {
-        imgUrl += possible.charAt(Math.floor(Math.random() * possible.length));
-      }
+        for (let i = 0; i < 6; i++) {
+          imgUrl += possible.charAt(
+            Math.floor(Math.random() * possible.length)
+          );
+        }
 
-      const isFileExtensionValid = fileTypes.test(
-        path.extname(req.file.originalname).toLowerCase()
-      );
-      const isMimeTypeValid = fileTypes.test(req.file.mimetype);
-      const extensionName = path.extname(req.file.originalname);
-      const targetPath = path.resolve(
-        'public/uploads/temp' + imgUrl + extensionName
-      );
+        const isFileExtensionValid = fileTypes.test(
+          path.extname(req.file.originalname).toLowerCase()
+        );
+        const isMimeTypeValid = fileTypes.test(req.file.mimetype);
+        const extensionName = path.extname(req.file.originalname);
+        const targetPath = path.resolve(
+          'public/uploads/temp' + imgUrl + extensionName
+        );
 
-      if (isMimeTypeValid && isFileExtensionValid) {
-        fs.rename(tempPath, targetPath, err => {
-          if (err) throw err;
-          // console.log(req.file);
-          res.redirect('/images/99');
-        });
-      } else {
-        fs.unlink(tempPath, err => {
-          if (err) throw err;
-          res.status(500).json({
-            error: `Only image files are allowed!`
+        if (isMimeTypeValid && isFileExtensionValid) {
+          fs.rename(tempPath, targetPath, err => {
+            if (err) throw err;
+            res.redirect('/images/99');
           });
-        });
+        } else {
+          fs.unlink(tempPath, err => {
+            if (err) throw err;
+            res.status(500).json({
+              error: `Only image files are allowed!`
+            });
+          });
+        }
       }
     };
 
