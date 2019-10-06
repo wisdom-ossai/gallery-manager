@@ -48,17 +48,19 @@ const control = {
         imgUrl += possible.charAt(Math.floor(Math.random() * possible.length));
       }
 
-      const extname = fileTypes.test(
+      const isFileExtensionValid = fileTypes.test(
         path.extname(req.file.originalname).toLowerCase()
       );
-      const mimeType = fileTypes.test(req.file.mimetype);
+      const isMimeTypeValid = fileTypes.test(req.file.mimetype);
+      const extensionName = path.extname(req.file.originalname);
       const targetPath = path.resolve(
-        './public/uploads/temp' + imgUrl + extname
+        'public/uploads/temp' + imgUrl + extensionName
       );
 
-      if (mimeType && extname) {
+      if (isMimeTypeValid && isFileExtensionValid) {
         fs.rename(tempPath, targetPath, err => {
           if (err) throw err;
+          // console.log(req.file);
           res.redirect('/images/99');
         });
       } else {

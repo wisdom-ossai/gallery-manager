@@ -3,7 +3,7 @@ const imageController = require('../controllers/image.controller');
 const multer = require('multer');
 
 const upload = multer({
-  dest: 'uploads/temp',
+  dest: 'public/uploads/temp',
   limits: {
     fileSize: 1024 * 1024 * 5
   }
