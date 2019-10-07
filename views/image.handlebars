@@ -6,13 +6,13 @@
         <h5 class="card-title">Special title treatment</h5>
         <p class="card-text">{{image.description}}</p>
         <div class="col-md-12 text-center">
-            <img src="/public/upload/{{image.filename}}" class="img-thumbnail">
+            <img src="/uploads/temp/{{image.filename}}" class="img-thumbnail img-fluid">
         </div>
     </div>
     <div class="card-footer text-muted">
         <div class="row">
             <div class="col-md-8">
-                <button class="btn btn-success text-uppercase" id="btn-like" data-id="{{image.uiqueId}}"><i
+                <button class="btn btn-unique text-uppercase" id="btn-like" data-id="{{image.uniqueId}}"><i
                         class="fa fa-thumbs-up"></i>&nbsp; &nbsp; Like</button>
                 <span class="likes-count">{{image.likes}}</span>
                 &nbsp; - &nbsp; <i class="fa fa-eye"></i> <span>{{ image.views }}</span> &nbsp; - &nbsp; <span
@@ -29,40 +29,14 @@
                 <h4 class="panel-title">Comments</h4>
             </div>
             <div class="col-md-4 text-right">
-                <button class="btn btn-default btn-sm" id="btn-comment" data-id="{{image.uniqueId}}"><i
-                        class="fa fa-comments"></i>&nbsp; &nbsp; Post Comment...</button>
+                <button class="btn btn-unique btn-sm" id="btn-comment" data-id="{{image.uniqueId}}" data-toggle="modal"
+                    data-target="#modalCommentForm"><i class="fa fa-comments"></i>&nbsp; &nbsp;
+                    Post Comment...</button>
+
             </div>
         </div>
     </div>
     <div class="card-body">
-        <blockquote id="post-comment">
-            <div class="row">
-                <div class="col-12">
-                    <form method="POST" action="/images/{{image.uniqueId}}/comment" class="md-form">
-                        <div class="md-form">
-                            <input type="text" id="name" class="form-control" name="name">
-                            <label for="name">Name</label>
-                        </div>
-                        <div class="md-form">
-                            <input type="text" id="email" class="form-control" name="email">
-                            <label for="email">Email</label>
-                        </div>
-                        <!--Material textarea-->
-                        <div class="md-form">
-                            <textarea id="comment" class="md-textarea form-control" rows="3" name="comment"></textarea>
-                            <label for="comment">Comment</label>
-                        </div>
-                        <div class="md-form">
-                            <button class="btn btn-info btn-block my-4 text-uppercase" type="submit" id="btn-comment"><i
-                                    class="fa fa-comment "></i>Post</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </blockquote>
-        <div class="card-header">
-            <h4 class="text-center">Comments</h4>
-        </div>
 
         <ul class="list-group list-group-flush">
             {{#each comments}}
@@ -83,5 +57,49 @@
             </li>
             {{/each}}
         </ul>
+    </div>
+</div>
+
+<div class="modal fade" id="modalCommentForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form method="POST" action="/images/{{image.uniqueId}}/comment">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Write to us</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+
+                    <div class="md-form mb-5">
+                        <i class="fas fa-user prefix grey-text"></i>
+                        <input type="text" id="name" class="form-control validate" name="name">
+                        <label data-error="wrong" data-success="right" for="name">Your name</label>
+                    </div>
+
+                    <div class="md-form mb-5">
+                        <i class="fas fa-envelope prefix grey-text"></i>
+                        <input type="email" id="email" class="form-control validate" name="email">
+                        <label data-error="wrong" data-success="right" for="email">Your email</label>
+                    </div>
+
+                    <div class="md-form">
+                        <i class="fas fa-pencil prefix grey-text"></i>
+                        <textarea type="text" id="comment" class="md-textarea form-control" rows="4"
+                            name="comment"></textarea>
+                        <label data-error="wrong" data-success="right" for="comment">Your
+                            message</label>
+                    </div>
+
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="submit" class="btn btn-unique text-uppercase"><i class="fa fa-comment "></i>&nbsp;
+                        &nbsp;
+                        Post</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>

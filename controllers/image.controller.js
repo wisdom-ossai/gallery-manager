@@ -9,7 +9,7 @@ const control = {
         uniqueId: 1,
         title: 'Sample Image 1',
         description: 'This is a sample.',
-        filename: 'sample1.jpg',
+        filename: 'vp43yc.png',
         views: 0,
         likes: 0,
         timestamp: Date.now()
@@ -60,7 +60,7 @@ const control = {
         const isMimeTypeValid = fileTypes.test(req.file.mimetype);
         const extensionName = path.extname(req.file.originalname);
         const targetPath = path.resolve(
-          'public/uploads/temp' + imgUrl + extensionName
+          'public/uploads/temp/' + imgUrl + extensionName
         );
 
         if (isMimeTypeValid && isFileExtensionValid) {
@@ -82,7 +82,7 @@ const control = {
     saveImage();
   },
   like: (req, res) => {
-    res.send('The Like Image POST Controller');
+    res.json({ like: 1 });
   },
   comment: (req, res) => {
     res.send('The Comment on image POST controller');
