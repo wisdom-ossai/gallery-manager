@@ -54,35 +54,62 @@ const control = {
           );
         }
 
-        const isFileExtensionValid = fileTypes.test(
-          path.extname(req.file.originalname).toLowerCase()
-        );
-        const isMimeTypeValid = fileTypes.test(req.file.mimetype);
-        const extensionName = path.extname(req.file.originalname);
-        const targetPath = path.resolve(
-          'public/uploads/temp/' + imgUrl + extensionName
-        );
+        Models.Image.find({ filename: imgUrl }, (err, images) => {
+          if (err) throw err;
+          if (images.length > 0) {
+            saveImage();
+          } else {
+            const isFileExtensionValid = fileTypes.test(
+              path.extname(req.file.originalname).toLowerCase()
+            );
+            const isMimeTypeValid = fileTypes.test(req.file.mimetype);
+            const extensionName = path.extname(req.file.originalname);
+            const targetPath = path.resolve(
+              'public/uploads/temp/' + imgUrl + extensionName
+            );
 
-        if (isMimeTypeValid && isFileExtensionValid) {
-          fs.rename(tempPath, targetPath, err => {
-            if (err) throw err;
-            res.redirect('/images/99');
-          });
-        } else {
-          fs.unlink(tempPath, err => {
-            if (err) throw err;
-            res.status(500).json({
-              error: `Only image files are allowed!`
-            });
-          });
-        }
+            if (isMimeTypeValid && isFileExtensionValid) {
+              fs.rename(tempPath, targetPath, err => {
+                if (err) throw err;
+                let newImg = new Models.Image({
+                  title: req.body.title,
+                  description: req.body.description,
+                  filename: imgUrl + extensionName
+                });
+                newImg.save((err, image) => {
+                  if (err) throw err;
+                  console.log('Successfully inserted image: ' + image.filename);
+                  res.redirect('/images/' + image.uniqueId);
+                });
+              });
+            } else {
+              fs.unlink(tempPath, err => {
+                if (err) throw err;
+                res.status(500).json({
+                  error: `Only image files are allowed!`
+                });
+              });
+            }
+          }
+        });
       }
     };
 
     saveImage();
   },
   like: (req, res) => {
-    res.json({ like: 1 });
+    Models.Image.findOne(
+      { filename: { $regex: req.params.image_id } },
+      (err, image) => {
+        if (!err && image) {
+          image.likes++;
+          image.save(err => {
+            if (err) res.json(err);
+            res.json({ likes: image.likes });
+          });
+        }
+      }
+    );
   },
   comment: (req, res) => {
     res.send('The Comment on image POST controller');

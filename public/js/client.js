@@ -9,7 +9,7 @@ $(document).ready(function() {
     event.preventDefault();
     var imgId = $(this).data('id');
     $.post('/images/' + imgId + '/like').done(function(data) {
-      $('.likes-count').text(data.like);
+      $('.likes-count').text(data.likes);
     });
   });
 
