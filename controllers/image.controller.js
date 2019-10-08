@@ -1,43 +1,43 @@
 const fs = require('fs');
 const path = require('path');
 const sidebar = require('../helpers/sidebar.helper');
+const Models = require('../models');
 
 const control = {
   getById: (req, res) => {
     const viewModel = {
-      image: {
-        uniqueId: 1,
-        title: 'Sample Image 1',
-        description: 'This is a sample.',
-        filename: 'vp43yc.png',
-        views: 0,
-        likes: 0,
-        timestamp: Date.now()
-      },
-      comments: [
-        {
-          image_id: 1,
-          email: 'test@testing.com',
-          name: 'Test Tester',
-          gravatar: 'http://lorempixel.com/75/75/animals/1',
-          comment: 'This is a test comment...',
-          timestamp: Date.now()
-        },
-        {
-          image_id: 1,
-          email: 'test@testing.com',
-          name: 'Test Tester',
-          gravatar: 'http://lorempixel.com/75/75/animals/2',
-          comment: 'Another followup comment!',
-          timestamp: Date.now()
-        }
-      ]
+      image: {},
+      comments: []
     };
 
-    sidebar(viewModel, (err, viewModel) => {
-      if (err) throw err;
-      res.render('image', viewModel);
-    });
+    Models.Image.findOne(
+      { filename: { $regex: req.params.image_id } },
+      (err, image) => {
+        if (err) throw err;
+        if (image) {
+          image.views++;
+          viewModel.image = image;
+          image.save();
+
+          Models.Comment.find(
+            { image_id: image._id },
+            {},
+            { sort: { timestamp: 1 } },
+            (err, comments) => {
+              if (err) throw err;
+
+              viewModel.comments = comments;
+              sidebar(viewModel, (err, viewModel) => {
+                if (err) throw err;
+                res.render('image', viewModel);
+              });
+            }
+          );
+        } else {
+          res.redirect('/');
+        }
+      }
+    );
   },
   add: (req, res) => {
     const saveImage = () => {
