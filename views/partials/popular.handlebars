@@ -3,11 +3,11 @@
         <h5 class="panel-title">Most Popular</h5>
     </div>
     <div class="card-body">
-        <div class="row">
+        <div class="row text-center">
             {{#each sidebar.popular}}
-            <div class="col-md-6 p-2">
-                <a href="/images/{{uniqueId}}"><img src="/public/ upload/{{filename}}"
-                        class="imgthumbnail img-fluid"></a>
+            <div class="col-6 pt-1">
+                <a href="/images/{{uniqueId}}"><img src="/uploads/temp/{{filename}}"
+                        class="imgthumbnail img-fluid img-popular"></a>
             </div>
 
             {{/each}}

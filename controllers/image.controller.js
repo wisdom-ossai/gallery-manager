@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const sidebar = require('../helpers/sidebar.helper');
 const Models = require('../models');
+const md5 = require('MD5');
+const gravatar = require('gravatar');
 
 const control = {
   getById: (req, res) => {
@@ -112,7 +114,27 @@ const control = {
     );
   },
   comment: (req, res) => {
-    res.send('The Comment on image POST controller');
+    Models.Image.findOne(
+      { filename: { $regex: req.params.image_id } },
+      (err, image) => {
+        if (!err && image) {
+          const newComment = new Models.Comment(req.body);
+          newComment.gravatar = gravatar.url(
+            newComment.email,
+            { s: '100', r: 'x', d: 'retro' },
+            true
+          );
+          newComment.image_id = image._id;
+          newComment.save((err, comment) => {
+            if (err) throw err;
+
+            res.redirect(`/images/${image.uniqueId}#${comment._id}`);
+          });
+        } else {
+          res.redirect('/');
+        }
+      }
+    );
   }
 };
 
