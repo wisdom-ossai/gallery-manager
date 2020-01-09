@@ -1,37 +1,53 @@
 <div class="card text-center mt-3">
     <div class="card-header">
-        {{image.title}}
+        <div class="row">
+            <div class="col-11 align-left">
+                <h4>{{image.title}}</h4>
+            </div>
+            <div class="col-1 delete-button">
+                    <i class="fa fa-trash" data-id="{{ image.uniqueId }}"></i>
+            </div>
+        </div>
+
     </div>
     <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">{{image.description}}</p>
+        <p class="card-text align-left">{{image.description}}</p>
         <div class="col-md-12 text-center">
             <img src="/uploads/temp/{{image.filename}}" class="img-thumbnail img-fluid">
         </div>
     </div>
     <div class="card-footer text-muted">
         <div class="row">
-            <div class="col-md-8">
-                <button class="btn btn-unique text-uppercase" id="btn-like" data-id="{{image.uniqueId}}"><i
-                        class="fa fa-thumbs-up"></i>&nbsp; &nbsp; Like</button>
-                <span class="likes-count">{{image.likes}}</span>
-                &nbsp; - &nbsp; <i class="fa fa-eye"></i> <span>{{ image.views }}</span> &nbsp; - &nbsp; <span
-                    class="font-weight-bold">Posted:</span>
-                <span class="text-muted font-italic">{{ timeago image.timestamp }}</span>
+            <div class="col-sm-12 col-md-8">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <button class="btn btn-sm btn-unique text-uppercase btn-block" id="btn-like" data-id="{{image.uniqueId}}">
+                            <i class="fa fa-thumbs-up"></i>&nbsp; &nbsp; Like
+                        </button>
+                    </div>
+                    <div class="col-sm-4">
+                        <span class="likes-count">{{image.likes}}</span>
+                        &nbsp; - &nbsp; <i class="fa fa-eye"></i> <span>{{ image.views }}</span>
+                    </div>
+                    <div class="col-sm-4">
+                        <span class="font-weight-bold">Posted:</span>
+                        <span class="text-muted font-italic">{{ timeago image.timestamp }}</span>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4">
-                <a href="/" class="btn btn-outline-primary"><i class="fa fa-arrow-left"></i>&nbsp; &nbsp; Back</a>
+            <div class="col-sm-12 col-md-4">
+                <a href="/" class="btn btn-sm btn-outline-primary d-flex justify-content-center d-md-table mx-auto"><i class="fa fa-arrow-left"></i>&nbsp; &nbsp; Back</a>
             </div>
         </div>
     </div>
 </div>
 <div class="card mt-3">
     <div class="card-header">
-        <div class="row m-3">
-            <div class="col-md-8">
+        <div class="row">
+            <div class="col-7">
                 <h4 class="panel-title">Comments</h4>
             </div>
-            <div class="col-md-4 text-right">
+            <div class="col-5">
                 <button class="btn btn-unique btn-sm" id="btn-comment" data-id="{{image.uniqueId}}" data-toggle="modal"
                     data-target="#modalCommentForm"><i class="fa fa-comments"></i>&nbsp; &nbsp;
                     Post Comment...</button>

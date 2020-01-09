@@ -6,3 +6,11 @@ img.img-popular {
   height: 94px !important;
   width: 94px !important;
 }
+
+.delete-button {
+  text-align: right;
+}
+
+.align-left {
+  text-align: left;
+}

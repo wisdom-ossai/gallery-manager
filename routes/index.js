@@ -16,6 +16,7 @@ module.exports.initialize = (app, router) => {
   router.post('/image', upload.single('newImage'), imageController.add);
   router.post('/images/:image_id/like', imageController.like);
   router.post('/images/:image_id/comment', imageController.comment);
+  router.delete('/images/:image_id', imageController.delete);
 
   app.use('/', router);
 };

@@ -7,9 +7,11 @@ module.exports = (viewModel, cb) => {
   async.parallel(
     [
       next => {
+        // next(null, Stats());
         Stats(next);
       },
       next => {
+        // next(null, Images.popular());
         Images.popular(next);
       },
       next => {
@@ -17,6 +19,7 @@ module.exports = (viewModel, cb) => {
       }
     ],
     (err, results) => {
+      console.log('results', results);
       viewModel.sidebar = {
         stats: results[0],
         popular: results[1],

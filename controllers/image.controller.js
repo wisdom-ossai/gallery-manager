@@ -2,7 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const sidebar = require('../helpers/sidebar.helper');
 const Models = require('../models');
-const md5 = require('MD5');
 const gravatar = require('gravatar');
 
 const control = {
@@ -29,9 +28,9 @@ const control = {
               if (err) throw err;
 
               viewModel.comments = comments;
-              sidebar(viewModel, (err, viewModel) => {
+              sidebar(viewModel, (err, v) => {
                 if (err) throw err;
-                res.render('image', viewModel);
+                res.render('image', v);
               });
             }
           );
@@ -133,6 +132,29 @@ const control = {
         } else {
           res.redirect('/');
         }
+      }
+    );
+  },
+  delete: (req, res) => {
+    Models.Image.findOne(
+      { filename: { $regex: req.params.image_id } },
+      (err, image) => {
+        fs.unlink(
+          path.resolve('public/uploads/temp/' + image.filename),
+          err => {
+            if (err) throw err;
+            Models.Comment.remove({ image_id: image._id }, err => {
+              image.remove(err => {
+                if (!err) {
+                  res.json(true);
+                  console.log(res);
+                } else {
+                  res.json(false);
+                }
+              });
+            });
+          }
+        );
       }
     );
   }

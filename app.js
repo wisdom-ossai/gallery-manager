@@ -10,7 +10,11 @@ app.set('views', path.join(__dirname, 'views'));
 
 app = config(app);
 
-mongoose.connect('mongodb://localhost/imgManager');
+mongoose.connect('mongodb://localhost/imgManager', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false
+});
 mongoose.connection.on('open', () => {
   console.log('Mongoose connected!!!');
 });

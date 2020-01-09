@@ -5,7 +5,8 @@ module.exports = cb => {
   Async.parallel(
     [
       next => {
-        Models.Image.count({}, next);
+        Models.Image.count({}, (err, total) => next(err, total));
+        
       },
       next => {
         Models.Comment.count({}, next);
@@ -14,6 +15,7 @@ module.exports = cb => {
         Models.Image.aggregate(
           [{ $group: { _id: 'l', viewsTotal: { $sum: '$views' } } }],
           (err, result) => {
+            if (err) throw err;
             let viewsTotal = 0;
             if (result.length > 0) {
               console.log(result);
@@ -24,7 +26,17 @@ module.exports = cb => {
         );
       },
       next => {
-        next(null, 0);
+        Models.Image.aggregate([
+          { $group: { _id: 'l', totalLikes: { $sum: '$likes' } } }
+        ],
+          (err, result) => {
+            if (err) throw err;
+            let totalLikes = 0;
+            if (result.length > 0) {
+              totalLikes += result[0].totalLikes
+            }
+            next(null, totalLikes);
+        })
       }
     ],
     (err, results) => {

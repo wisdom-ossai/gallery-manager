@@ -19,6 +19,7 @@ module.exports = {
         async.each(comments, attachImage, err => {
           if (err) throw err;
           cb(err, comments);
+          console.log(comments);
         });
       }
     );
